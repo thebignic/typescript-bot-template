@@ -26,37 +26,7 @@ const registerCommands: Function = async (client: Bot) => {
             defaultPermission: true,
           });
         });
-
-        /*client.guilds.cache.each(async guild => {
-            await guild.commands.create({
-              name,
-              description,
-              type,
-              options,
-              defaultPermission: true,
-            });
-          });
-
-           */
-        /*if (command.guildOnly)
-              client.guilds.cache.each(async (guild: Guild) => {
-                const overwrites = await guildCommandPermissionSchema
-                  .find({
-                    guildId: guild.id,
-                    commandName: command.name,
-                  })
-                  .exec();
-                const { name, description, type, options } = command;
-                const slashCommand = await guild.commands.create({
-                  name,
-                  description,
-                  type,
-                  options,
-                  defaultPermission: true,
-                });
-              });
-             */
-      } else console.log('beamed');
+      }
     }
   }
 };
