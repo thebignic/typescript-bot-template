@@ -17,7 +17,6 @@ abstract class Command implements CommandOptions {
   public type?: ApplicationCommandType;
   public ownerOnly: boolean;
   public guildOnly: boolean;
-  // public defaultPermission?: boolean;
   public clientPermissions?: PermissionString[];
   public options?: ApplicationCommandOptionData[];
   public abstract client: Bot;

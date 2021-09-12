@@ -1,6 +1,5 @@
 import {
   PermissionString,
-  // Message,
   CommandInteraction,
   ApplicationCommandType,
   ApplicationCommandOptionData,
