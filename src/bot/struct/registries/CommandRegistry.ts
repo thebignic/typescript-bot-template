@@ -2,10 +2,8 @@ import Bot from '../../client/Client';
 import Command from '../../struct/Command';
 import { sync } from 'glob';
 import { resolve } from 'path';
-import { Guild } from 'discord.js';
 
 const registerCommands: Function = async (client: Bot) => {
-  await client.application?.commands.set([]);
   const commandFiles = sync(resolve('src/bot/commands/**/*'));
   for (const file of commandFiles) {
     if (/\.(j|t)s$/iu.test(file)) {
@@ -13,18 +11,29 @@ const registerCommands: Function = async (client: Bot) => {
       if (File && File.prototype instanceof Command) {
         const command: Command = new File();
         command.client = client;
+        const { name, description, type, options } = command;
+        const commandData = {
+          name,
+          description,
+          type,
+          options,
+          defaultPermission: true,
+        };
+        if (!command.guildOnly)
+          await client.application?.commands.create(commandData);
+        else
+          for (const [_id, guild] of client.guilds.cache.entries()) {
+            if (
+              !(await guild.commands.fetch()).some(
+                guildCommand => command.name === guildCommand.name
+              )
+            ) {
+              try {
+                await guild.commands.create(commandData);
+              } catch {}
+            }
+          }
         client.commands.set(command.name, command);
-
-        client.guilds.cache.each(async (guild: Guild) => {
-          const { name, description, type, options } = command;
-          await guild.commands.create({
-            name,
-            description,
-            type,
-            options,
-            defaultPermission: true,
-          });
-        });
       }
     }
   }

@@ -1,5 +1,4 @@
 import Event from '../struct/Event';
-import { CommandRegistry } from '../struct/registries/export/RegistryIndex';
 
 abstract class ReadyEvent extends Event {
   protected constructor() {
@@ -11,7 +10,6 @@ abstract class ReadyEvent extends Event {
 
   async exec() {
     console.log('Ready!');
-    CommandRegistry(this.client);
   }
 }
 
