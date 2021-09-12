@@ -14,7 +14,7 @@ abstract class Command implements CommandOptions {
   public usage: string;
   public category: string;
   public cooldown: number;
-  public type?: ApplicationCommandType;
+  public type: ApplicationCommandType | undefined;
   public ownerOnly: boolean;
   public guildOnly: boolean;
   public clientPermissions?: PermissionString[];
