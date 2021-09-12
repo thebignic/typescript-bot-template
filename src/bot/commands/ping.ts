@@ -4,7 +4,7 @@ import { CommandInteraction } from 'discord.js';
 abstract class PingCommand extends Command {
   protected constructor() {
     super({
-      name: 'pinganother',
+      name: 'ping',
       aliases: ['p'],
       description: 'Pong!',
     });
