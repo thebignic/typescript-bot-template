@@ -1,17 +1,17 @@
 import Command from '../struct/Command';
-import { Message } from 'discord.js';
+import { CommandInteraction } from 'discord.js';
 
 abstract class PingCommand extends Command {
-  constructor() {
+  protected constructor() {
     super({
-      name: 'ping',
+      name: 'pinganother',
       aliases: ['p'],
       description: 'Pong!',
     });
   }
 
-  exec(message: Message) {
-    return message.reply('Pong!');
+  async exec(interaction: CommandInteraction) {
+    return interaction.reply('Pong!');
   }
 }
 

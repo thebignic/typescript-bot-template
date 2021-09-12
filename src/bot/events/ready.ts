@@ -1,15 +1,17 @@
 import Event from '../struct/Event';
+import { CommandRegistry } from '../struct/registries/export/RegistryIndex';
 
 abstract class ReadyEvent extends Event {
-  constructor() {
+  protected constructor() {
     super({
       name: 'ready',
-      once: true,
+      type: 'once',
     });
   }
 
   async exec() {
     console.log('Ready!');
+    CommandRegistry(this.client);
   }
 }
 
