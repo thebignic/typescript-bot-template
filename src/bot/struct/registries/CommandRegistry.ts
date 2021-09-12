@@ -2,6 +2,8 @@ import Bot from '../../client/Client';
 import Command from '../../struct/Command';
 import { sync } from 'glob';
 import { resolve } from 'path';
+import { ApplicationCommand, ApplicationCommandData } from 'discord.js';
+import settings from '../../settings';
 
 const registerCommands: Function = async (client: Bot) => {
   const commandFiles = sync(resolve('src/bot/commands/**/*'));
@@ -11,16 +13,17 @@ const registerCommands: Function = async (client: Bot) => {
       if (File && File.prototype instanceof Command) {
         const command: Command = new File();
         command.client = client;
-        const { name, description, type, options } = command;
-        const commandData = {
+        const { name, description, type, options, defaultPermission } = command;
+        const commandData: ApplicationCommandData = {
           name,
           description,
           type,
           options,
-          defaultPermission: true,
+          defaultPermission: command.ownerOnly ? false : defaultPermission,
         };
+        let slashCommand: ApplicationCommand | undefined;
         if (!command.guildOnly)
-          await client.application?.commands.create(commandData);
+          slashCommand = await client.application?.commands.create(commandData);
         else
           for (const [_id, guild] of client.guilds.cache.entries()) {
             if (
@@ -29,10 +32,21 @@ const registerCommands: Function = async (client: Bot) => {
               )
             ) {
               try {
-                await guild.commands.create(commandData);
+                slashCommand = await guild.commands.create(commandData);
               } catch {}
             }
           }
+        if (slashCommand)
+          await slashCommand.permissions.add({
+            permissions: settings.BOT_OWNER_ID.map(id => {
+              return {
+                id,
+                type: 'USER',
+                permission: true,
+              };
+            }),
+          });
+
         client.commands.set(command.name, command);
       }
     }
