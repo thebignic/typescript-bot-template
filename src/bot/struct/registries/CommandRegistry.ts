@@ -16,7 +16,6 @@ const registerCommands: Function = async (client: Bot) => {
         client.commands.set(command.name, command);
 
         client.guilds.cache.each(async (guild: Guild) => {
-          console.log(`registering command ${command.name} in ${guild.name}`);
           const { name, description, type, options } = command;
           await guild.commands.create({
             name,
