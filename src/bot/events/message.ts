@@ -1,4 +1,4 @@
-import Event from '../struct/Event';
+/*import Event from '../struct/Event';
 import { Message, TextChannel, Guild, Collection } from 'discord.js';
 import settings from '../settings';
 
@@ -85,3 +85,5 @@ abstract class MessageEvent extends Event {
 }
 
 export default MessageEvent;
+
+ */

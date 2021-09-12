@@ -1,17 +1,20 @@
 import { EventOptions } from '../types/Options';
-import Bot from '../client/Client'
+import Bot from '../client/Client';
+import { Awaited } from 'discord.js';
+import { ClientEvent } from '../types/ClientEvent';
 
 abstract class Event {
-  public name: string;
-  public type: boolean;
+  public name: ClientEvent;
+  public type: 'on' | 'once';
+  public once: boolean;
   public abstract client: Bot;
 
-  constructor(options: EventOptions) {
+  protected constructor(options: EventOptions) {
     this.name = options.name;
-    this.type = options.once ?? false;
+    this.once = options.type === 'once' ?? false;
   }
 
-  public abstract exec(...args: any[]): unknown | Promise<unknown>;
+  public abstract exec(...args: any[]): void | Awaited<void>;
 }
 
 export default Event;

@@ -2,20 +2,62 @@ import Bot from '../../client/Client';
 import Command from '../../struct/Command';
 import { sync } from 'glob';
 import { resolve } from 'path';
+import { Guild } from 'discord.js';
 
-const registerCommands: Function = (client: Bot) => {
+const registerCommands: Function = async (client: Bot) => {
+  await client.application?.commands.set([]);
   const commandFiles = sync(resolve('src/bot/commands/**/*'));
-  commandFiles.forEach((file) => {
+  for (const file of commandFiles) {
     if (/\.(j|t)s$/iu.test(file)) {
       const File = require(file).default;
       if (File && File.prototype instanceof Command) {
-        const command: Command = new File;
+        const command: Command = new File();
         command.client = client;
         client.commands.set(command.name, command);
-        command.aliases.forEach((alias) => client.commands.set(alias, command));
-      }
-    }
-  });
-}
 
+        client.guilds.cache.each(async (guild: Guild) => {
+          console.log(`registering command ${command.name} in ${guild.name}`);
+          const { name, description, type, options } = command;
+          await guild.commands.create({
+            name,
+            description,
+            type,
+            options,
+            defaultPermission: true,
+          });
+        });
+
+        /*client.guilds.cache.each(async guild => {
+            await guild.commands.create({
+              name,
+              description,
+              type,
+              options,
+              defaultPermission: true,
+            });
+          });
+
+           */
+        /*if (command.guildOnly)
+              client.guilds.cache.each(async (guild: Guild) => {
+                const overwrites = await guildCommandPermissionSchema
+                  .find({
+                    guildId: guild.id,
+                    commandName: command.name,
+                  })
+                  .exec();
+                const { name, description, type, options } = command;
+                const slashCommand = await guild.commands.create({
+                  name,
+                  description,
+                  type,
+                  options,
+                  defaultPermission: true,
+                });
+              });
+             */
+      } else console.log('beamed');
+    }
+  }
+};
 export default registerCommands;

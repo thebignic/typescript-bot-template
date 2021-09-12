@@ -1,22 +1,28 @@
-import { CommandType } from '../types/Options';
-import { Message, PermissionString } from 'discord.js';
+import { CommandType, CommandOptions } from '../types/Options';
+import {
+  ApplicationCommandOptionData,
+  ApplicationCommandType,
+  CommandInteraction,
+  PermissionString,
+} from 'discord.js';
 import Bot from '../client/Client';
 
-abstract class Command {
+abstract class Command implements CommandOptions {
   public name: string;
   public aliases: string[];
   public description: string;
   public usage: string;
   public category: string;
   public cooldown: number;
+  public type?: ApplicationCommandType;
   public ownerOnly: boolean;
   public guildOnly: boolean;
-  public requiredArgs: number;
-  public userPermissions: PermissionString[];
-  public clientPermissions: PermissionString[];
+  // public defaultPermission?: boolean;
+  public clientPermissions?: PermissionString[];
+  public options?: ApplicationCommandOptionData[];
   public abstract client: Bot;
 
-  constructor(options: CommandType) {
+  protected constructor(options: CommandType) {
     this.name = options.name;
     this.aliases = options.aliases ?? [];
     this.description = options.description;
@@ -25,12 +31,14 @@ abstract class Command {
     this.cooldown = options.cooldown ?? 0;
     this.ownerOnly = options.ownerOnly ?? false;
     this.guildOnly = options.guildOnly ?? false;
-    this.requiredArgs = options.requiredArgs ?? 0;
-    this.userPermissions = options.userPermissions ?? [];
-    this.clientPermissions = options.clientPermissions ?? [];
+    this.type = options.type;
+    this.clientPermissions = options.clientPermissions;
+    this.options = options.options;
   }
 
-  public abstract exec(msg: Message, args: string[]): unknown | Promise<unknown>;
+  public abstract exec(
+    interaction: CommandInteraction
+  ): unknown | Promise<unknown>;
 }
 
 export default Command;

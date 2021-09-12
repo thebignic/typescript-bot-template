@@ -1,12 +1,18 @@
-import { Client, Collection } from 'discord.js';
-import { CommandRegistry, EventRegistry } from '../struct/registries/export/RegistryIndex';
-import { CommandOptions, EventOptions } from '../types/Options';
+import { ApplicationCommand, Client, Collection, Intents } from 'discord.js';
+import {
+  CommandRegistry,
+  EventRegistry,
+} from '../struct/registries/export/RegistryIndex';
+import { EventOptions } from '../types/Options';
 import settings from '../settings';
+import Command from '../struct/Command';
 
 class Bot extends Client {
   public prefix: string;
 
-  public commands = new Collection<string, CommandOptions>();
+  public commands = new Collection<string, Command>();
+
+  public slashCommands = new Collection<string, ApplicationCommand>();
 
   public cooldowns = new Collection<string, Collection<string, number>>();
 
@@ -15,16 +21,16 @@ class Bot extends Client {
   public constructor() {
     super({
       /* Discord JS Client Options */
-      disableMentions: 'everyone',
+      intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES],
     });
 
     this.prefix = settings.PREFIX;
   }
 
-  public start() {
+  public async start() {
+    await super.login(settings.BOT_TOKEN);
     CommandRegistry(this);
     EventRegistry(this);
-    super.login(settings.BOT_TOKEN);
   }
 }
 
