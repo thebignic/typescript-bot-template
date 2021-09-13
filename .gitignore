@@ -6,3 +6,7 @@ src/bot/settings.ts
 
 # Dist
 dist/
+
+# IDEs/editors
+.idea
+.vscode
