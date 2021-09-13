@@ -10,7 +10,6 @@ export default abstract class InteractionCreateEvent extends Event {
     });
   }
 
-  //
   async exec(interaction: Interaction): Promise<void> {
     if (interaction.isCommand()) {
       await interaction.deferReply({ ephemeral: true });
