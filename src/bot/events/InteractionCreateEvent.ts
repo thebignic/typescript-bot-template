@@ -12,14 +12,10 @@ export default abstract class InteractionCreateEvent extends Event {
 
   async exec(interaction: Interaction): Promise<void> {
     if (interaction.isCommand()) {
-      console.log(1);
       const command = this.client.commands.get(interaction.commandName);
-      console.log(this.client.commands);
-      console.log(interaction.commandName);
       if (command) {
         const { ephemeral } = command;
         await interaction.deferReply({ ephemeral });
-        console.log(2);
         if (
           command.ownerOnly &&
           !settings.BOT_OWNER_ID.includes(interaction.user.id)
@@ -71,7 +67,6 @@ export default abstract class InteractionCreateEvent extends Event {
             cooldownAmount
           );
         }
-        console.log('anything');
         try {
           await interaction.followUp('beamed');
           await command.exec(interaction);
