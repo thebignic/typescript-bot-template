@@ -1,4 +1,4 @@
-import { ApplicationCommand, Client, Collection, Intents } from 'discord.js';
+import { Client, Collection, Intents } from 'discord.js';
 import {
   CommandRegistry,
   EventRegistry,
@@ -9,13 +9,9 @@ import Command from '../struct/Command';
 
 class Bot extends Client {
   public prefix: string;
-
   public commands = new Collection<string, Command>();
-
-  public slashCommands = new Collection<string, ApplicationCommand>();
-
+  public commandRegistry = new CommandRegistry(this);
   public cooldowns = new Collection<string, Collection<string, number>>();
-
   public events = new Collection<string, EventOptions>();
 
   public constructor() {
@@ -29,7 +25,7 @@ class Bot extends Client {
 
   public async start() {
     await super.login(settings.BOT_TOKEN);
-    CommandRegistry(this);
+    await this.commandRegistry.commandRegistry();
     EventRegistry(this);
   }
 }
