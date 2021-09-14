@@ -14,7 +14,7 @@ abstract class Command implements CommandOptions {
   public usage: string;
   public category: string;
   public cooldown: number;
-  public type: ApplicationCommandType | undefined;
+  public type: ApplicationCommandType;
   public ownerOnly: boolean;
   public defaultPermission: boolean;
   public ephemeral: boolean;

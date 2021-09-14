@@ -16,7 +16,7 @@ export interface CommandOptions {
   ownerOnly?: boolean;
   defaultPermission?: boolean;
   ephemeral?: boolean;
-  type?: ApplicationCommandType;
+  type: ApplicationCommandType;
   userPermissions?: PermissionString[];
   clientPermissions?: PermissionString[];
   options?: ApplicationCommandOptionData[];
