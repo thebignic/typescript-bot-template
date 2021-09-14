@@ -1,5 +1,5 @@
-import commandRegistry from '../CommandRegistry';
+import CommandRegistryClass from '../CommandRegistry';
 import eventRegistry from '../EventRegistry';
 
-export const CommandRegistry = commandRegistry;
+export const CommandRegistry = CommandRegistryClass;
 export const EventRegistry = eventRegistry;
