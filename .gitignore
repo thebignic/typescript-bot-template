@@ -8,5 +8,6 @@ src/bot/settings.ts
 dist/
 
 # IDEs/editors
-.idea
-.vscode
+.idea/
+.vscode/
+

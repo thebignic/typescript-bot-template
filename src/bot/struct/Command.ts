@@ -16,7 +16,6 @@ abstract class Command implements CommandOptions {
   public cooldown: number;
   public type: ApplicationCommandType | undefined;
   public ownerOnly: boolean;
-  public guildOnly: boolean;
   public defaultPermission: boolean;
   public clientPermissions?: PermissionString[];
   public options?: ApplicationCommandOptionData[];
@@ -30,7 +29,6 @@ abstract class Command implements CommandOptions {
     this.category = options.category ?? 'Misc';
     this.cooldown = options.cooldown ?? 0;
     this.ownerOnly = options.ownerOnly ?? false;
-    this.guildOnly = options.guildOnly ?? false;
     this.defaultPermission = options.defaultPermission ?? false;
     this.type = options.type;
     this.clientPermissions = options.clientPermissions;

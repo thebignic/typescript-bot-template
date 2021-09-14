@@ -7,6 +7,7 @@ abstract class PingCommand extends Command {
       name: 'ping',
       aliases: ['p'],
       description: 'Pong!',
+      defaultPermission: true,
     });
   }
 
