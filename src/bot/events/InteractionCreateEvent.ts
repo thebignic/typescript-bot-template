@@ -12,12 +12,13 @@ export default abstract class InteractionCreateEvent extends Event {
 
   async exec(interaction: Interaction): Promise<void> {
     if (interaction.isCommand()) {
-      await interaction.deferReply({ ephemeral: true });
       console.log(1);
       const command = this.client.commands.get(interaction.commandName);
       console.log(this.client.commands);
       console.log(interaction.commandName);
       if (command) {
+        const { ephemeral } = command;
+        await interaction.deferReply({ ephemeral });
         console.log(2);
         if (
           command.ownerOnly &&
@@ -36,7 +37,8 @@ export default abstract class InteractionCreateEvent extends Event {
             );
             if (!hasPermission) missingPermissions.push(clientPermissions[i]);
           }
-        if (missingPermissions.length) return interaction.deferReply();
+        if (missingPermissions.length)
+          return interaction.deferReply({ ephemeral });
         if (command.cooldown) {
           if (!this.client.cooldowns.has(command.name)) {
             this.client.cooldowns.set(command.name, new Collection());
@@ -59,7 +61,7 @@ export default abstract class InteractionCreateEvent extends Event {
                       ).toFixed(1)}s\`.`
                     ),
                   ],
-                  ephemeral: true,
+                  ephemeral,
                 });
             }
           }
@@ -81,6 +83,7 @@ export default abstract class InteractionCreateEvent extends Event {
                 'There was an error executing this command.'
               ),
             ],
+            ephemeral,
           });
           return;
         }
