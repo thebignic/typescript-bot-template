@@ -2,7 +2,7 @@
 ## TypeScript Bot Template
 > Discord bot template written with discord.js using type script.
 ## Installtion
-- Make sure you have [yarn](https://classic.yarnpkg.com/en/docs/install/#windows-stable) and [node.js](https://nodejs.org/en/), which is v12 or higher, both installed.
+- Make sure you have [yarn](https://classic.yarnpkg.com/en/docs/install/#windows-stable) and [node.js](https://nodejs.org/en/), which is v16 or higher, both installed.
 - [Fork](https://github.com/iColtz/typescript-bot-template/fork) the repository and clone your fork.
 - `git clone https://github.com/your-username/typescript-bot-template.git`
 - `cd typescript-bot-template`

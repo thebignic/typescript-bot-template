@@ -14,7 +14,6 @@ export interface CommandOptions {
   category?: string;
   cooldown?: number;
   ownerOnly?: boolean;
-  guildOnly?: boolean;
   defaultPermission?: boolean;
   type?: ApplicationCommandType;
   userPermissions?: PermissionString[];
